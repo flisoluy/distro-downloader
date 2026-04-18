@@ -4,10 +4,12 @@ set -euo pipefail
 
 # --- CLEANUP ---
 CURRENT_FILE=""
+ORIGINAL_DIR="$PWD"
 
 cleanup() {
+    cd "$ORIGINAL_DIR"
     if [[ -n "$CURRENT_FILE" && -f "$CURRENT_FILE" ]]; then
-        echo -ne "\n>>> Script ended unexpectedly. Cleaning up: $(basename "$CURRENT_FILE")"
+        echo -ne "\n>>> El script terminó inesperadamente. Limpiando: $(basename "$CURRENT_FILE")"
         rm -f "$CURRENT_FILE"
     fi
 }
@@ -30,7 +32,7 @@ DEVUAN_VER="6.1.0"
 DEVUAN_CODENAME="excalibur"
 
 # --- SCRIPT LOGIC ---
-OUTDIR="./distros"
+OUTDIR="$(dirname "$(readlink -f "$0")")/distros"
 mkdir -p "$OUTDIR"
 
 # Global flag for check mode
@@ -42,7 +44,7 @@ check_category() {
     shift
     local urls=("$@")
 
-    echo ">>> Checking URLs for $category_name distributions..."
+    echo ">>> Verificando URLs para distribuciones $category_name..."
 
     for url in "${urls[@]}"; do
         if [[ -n "$url" ]]; then
@@ -50,7 +52,7 @@ check_category() {
             filename=$(basename "$url")
             filename="${filename%%\?*}" # Strips URL parameters for clean display
 
-            echo -n ">>> Checking $filename... "
+            echo -n ">>> Verificando $filename... "
 
             # Get the status code using curl
             local status_code
@@ -58,19 +60,19 @@ check_category() {
 
             case "$status_code" in
                 200)
-                    echo "OK (Status: $status_code)"
+                    echo "OK (Estado: $status_code)"
                     ;;
                 3??)
-                    echo "REDIRECT (Status: $status_code)"
+                    echo "REDIRECCIÓN (Estado: $status_code)"
                     ;;
                 *)
-                    echo "ERROR (Status: $status_code)"
+                    echo "ERROR (Estado: $status_code)"
                     ;;
             esac
         fi
     done
 
-    echo ">>> $category_name checking complete."
+    echo ">>> Verificación de $category_name completada."
     echo "======================================================"
 }
 
@@ -79,7 +81,7 @@ download_category() {
     shift
     local urls=("$@")
 
-    echo ">>> Downloading $category_name distributions..."
+    echo ">>> Descargando distribuciones $category_name..."
     mkdir -p "$OUTDIR/$category_name"
     cd "$OUTDIR/$category_name"
 
@@ -91,11 +93,11 @@ download_category() {
 
             # Skip if file exists
             if [[ -f "$filename" ]]; then
-                echo ">>> Skipping $filename (already exists)."
+                echo ">>> Omitiendo $filename (ya existe)."
                 continue
             fi
 
-            echo ">>> Fetching $filename..."
+            echo ">>> Obteniendo $filename..."
 
             CURRENT_FILE="$(pwd)/$filename"
             curl -L --fail -o "$filename" --remote-time "$url"
@@ -104,7 +106,7 @@ download_category() {
     done
 
     cd ../..
-    echo ">>> $category_name downloads complete."
+    echo ">>> Descargas de $category_name completadas."
     echo "======================================================"
 }
 
@@ -152,33 +154,33 @@ LOW_END_URLS=(
 
 # --- INTERACTIVE PROMPT ---
 echo "======================================================"
-echo "Mode Selection"
+echo "Selección de Modo"
 echo "======================================================"
-read -p "Run in CHECK MODE? (Verifies URLs without downloading) (y/N): " is_check
+read -p "¿Ejecutar en modo de verificación? (Verifica URLs sin descargar) (s/N): " is_check
 
-if [[ "$is_check" =~ ^[Yy]$ ]]; then
+if [[ "$is_check" =~ ^[Ss]$ ]]; then
     CHECK_MODE=true
 fi
 
 echo "======================================================"
-echo "Select Categories"
+echo "Seleccionar Categorías"
 echo "======================================================"
-read -p "Process High-End distros? (y/N): " dl_high
-read -p "Process Medium-End distros? (y/N): " dl_med
-read -p "Process Low-End distros? (y/N): " dl_low
+read -p "¿Procesar distros High-End? (s/N): " dl_high
+read -p "¿Procesar distros Medium-End? (s/N): " dl_med
+read -p "¿Procesar distros Low-End? (s/N): " dl_low
 echo "======================================================"
 
 # Execute based on user input
-if [[ "$dl_high" =~ ^[Yy]$ ]]; then
+if [[ "$dl_high" =~ ^[Ss]$ ]]; then
     process_category "HighEnd" "${HIGH_END_URLS[@]}"
 fi
 
-if [[ "$dl_med" =~ ^[Yy]$ ]]; then
+if [[ "$dl_med" =~ ^[Ss]$ ]]; then
     process_category "MediumEnd" "${MEDIUM_END_URLS[@]}"
 fi
 
-if [[ "$dl_low" =~ ^[Yy]$ ]]; then
+if [[ "$dl_low" =~ ^[Ss]$ ]]; then
     process_category "LowEnd" "${LOW_END_URLS[@]}"
 fi
 
-echo "All selected tasks completed!"
+echo "¡Todas las tareas seleccionadas completadas!"
