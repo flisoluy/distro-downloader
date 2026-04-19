@@ -122,8 +122,8 @@ process_category() {
 HIGH_END_URLS=(
     "https://download.manjaro.org/kde/${MANJARO_VER}/manjaro-kde-${MANJARO_VER}-${MANJARO_DATE}-${MANJARO_KERNEL}.iso"
     "https://download.manjaro.org/gnome/${MANJARO_VER}/manjaro-gnome-${MANJARO_VER}-${MANJARO_DATE}-${MANJARO_KERNEL}.iso"
-    "https://mirror.undernet.uy/linuxmint/isos/stable/${MINT_VER}/linuxmint-${MINT_VER}-cinnamon-64bit.iso"
-    "https://mirror.undernet.uy/linuxmint/isos/stable/${MINT_VER}/linuxmint-${MINT_VER}-mate-64bit.iso"
+    "https://mint.zero.com.ar/mintcd/stable/${MINT_VER}/linuxmint-${MINT_VER}-cinnamon-64bit.iso"
+    "https://mint.zero.com.ar/mintcd/stable/${MINT_VER}/linuxmint-${MINT_VER}-mate-64bit.iso"
     "https://edgeuno-bog2.mm.fcix.net/fedora/linux/releases/${FEDORA_VER}/Workstation/x86_64/iso/Fedora-Workstation-Live-${FEDORA_VER}-${FEDORA_RESPIN}.x86_64.iso"
     "https://edgeuno-bog2.mm.fcix.net/fedora/linux/releases/${FEDORA_VER}/KDE/x86_64/iso/Fedora-KDE-Desktop-Live-${FEDORA_VER}-${FEDORA_RESPIN}.x86_64.iso"
     "https://debian.repo.cure.edu.uy/isos/current-live/amd64/iso-hybrid/debian-live-${DEBIAN_VER}-amd64-kde.iso"
@@ -135,7 +135,7 @@ HIGH_END_URLS=(
 # --- MEDIUM-END DISTROS ---
 MEDIUM_END_URLS=(
     "https://download.manjaro.org/xfce/${MANJARO_VER}/manjaro-xfce-${MANJARO_VER}-${MANJARO_DATE}-${MANJARO_KERNEL}.iso"
-    "https://mirror.undernet.uy/linuxmint/isos/stable/${MINT_VER}/linuxmint-${MINT_VER}-xfce-64bit.iso"
+    "https://mint.zero.com.ar/mintcd/stable/${MINT_VER}/linuxmint-${MINT_VER}-xfce-64bit.iso"
     "https://debian.repo.cure.edu.uy/isos/current-live/amd64/iso-hybrid/debian-live-${DEBIAN_VER}-amd64-xfce.iso"
     "https://trisquel.c3sl.ufpr.br/iso/trisquel_${TRISQUEL_VER}_amd64.iso"
     "https://trisquel.c3sl.ufpr.br/iso/trisquel-mini_${TRISQUEL_VER}_amd64.iso"
