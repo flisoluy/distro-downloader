@@ -156,7 +156,7 @@ LOW_END_URLS=(
 echo "======================================================"
 echo "Selección de Modo"
 echo "======================================================"
-read -p "¿Ejecutar en modo de verificación? (Verifica URLs sin descargar) (s/N): " is_check
+read -p "¿Ejecutar en modo de verificación? (Verifica URLs, sin descargar) (s/N): " is_check
 
 if [[ "$is_check" =~ ^[Ss]$ ]]; then
     CHECK_MODE=true
